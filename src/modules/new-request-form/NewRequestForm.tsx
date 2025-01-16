@@ -113,8 +113,9 @@ export function NewRequestForm({
     prefilledOrganizationField
   );
   const [dueDateField, setDueDateField] = useState(prefilledDueDateField);
+  const [attachmentError, setAttachmentError] = useState(false);
   const visibleFields = getVisibleFields(ticketFields, end_user_conditions);
-  const { formRefCallback, handleSubmit } = useFormSubmit(ticketFields);
+  const { formRefCallback, handleSubmit: originalHandleSubmit } = useFormSubmit(ticketFields);
   const { t } = useTranslation();
   const defaultOrganizationId =
     organizations.length > 0 && organizations[0]?.id
@@ -153,6 +154,17 @@ export function NewRequestForm({
     [dueDateField]
   );
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const formId = "33406174311437"; // Replace with the specific form ID
+    if (requestForm.id === formId && attachments_field && !attachments_field.value) {
+      event.preventDefault();
+      setAttachmentError(true);
+    } else {
+      setAttachmentError(false);
+      originalHandleSubmit(event);
+    }
+  };
+
   return (
     <>
       {parentId && (
@@ -183,6 +195,7 @@ export function NewRequestForm({
         onSubmit={handleSubmit}
       >
         {errors && <Alert type="error">{errors}</Alert>}
+        {attachmentError && <Alert type="error">Please attach the required document.</Alert>}
         {parent_id_field && <ParentTicketField field={parent_id_field} />}
         {ticket_form_field.options.length > 0 && (
           <TicketFormField
