@@ -8,21 +8,7 @@
   const approvalFormId = "33406174311437";
 
   // Function to check if approval document is uploaded
-  function isApprovalDocumentUploaded() {
-    const approvalInput = document.querySelector(`#${approvalFormId}`);
-    return approvalInput && approvalInput.files.length > 0;
-  }
-
-  // Prevent form submission if approval document is not uploaded
-  window.addEventListener("DOMContentLoaded", () => {
-    const form = document.querySelector("form");
-    form.addEventListener("submit", (event) => {
-      if (!isApprovalDocumentUploaded()) {
-        event.preventDefault();
-        alert("Please upload the required approval document before submitting.");
-      }
-    });
-  });
+  console.log("Testing one Two Three");
 
   function toggleNavigation(toggle, menu) {
     const isExpanded = menu.getAttribute("aria-expanded") === "true";
